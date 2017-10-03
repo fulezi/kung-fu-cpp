@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@3.5.0/css/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@3.5.0/css/theme/moon.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@3.5.0/lib/css/zenburn.css">
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+	<section>
+	  <h1>IIFE</h1>
+	  <h3>Immediately-Invoked Function Expression</h3>
+	</section>
+	<section>
+	  <h3>Advantage of a const variable</h3>
+	  <ul>
+	    <li>Correctness : Avoid the Oops</li>
+	    <li>Clarity : See I'll not touch it</li>
+	    <li>Optimization</li>
+	  </ul>
+	</section>
+	<section>
+	  <h3>But how to get const for that:</h3>
+	  <p>
+	    <pre><code class="cpp" data-trim>
+const int i = std::rand() % 3;
+std::string s;
+
+switch (i) {
+	case 1: s = "The number you selected is odd"; break;
+	case 2: s = "The number you selected is even"; break;
+	case 0: s = "The number you selected is zero"; break;
+}
+	    </code></pre>
+	  </p>
+	</section>
+	<section>
+	  <h3>With IIFE!</h3>
+	  <p>
+	    <pre><code class="cpp" data-trim>
+const int i = std::rand() % 3;
+const std::string s = [i]() {
+      switch (i) {
+        case 1: return "The number you selected is odd";
+        case 2: return "The number you selected is even";
+        default: return "The number you selected is zero";
+      }
+    }();
+	    </code></pre>
+	  </p>
+	</section>
+
+	<section>
+	  <h3>Optimize a bit: specify the Lambda return type</h3>
+	  <p>
+	    <pre><code class="cpp" data-trim>
+const int i = std::rand() % 3;
+const std::string s = [i]() -> std::string {
+      switch (i) {
+        case 1: return "The number you selected is odd";
+        case 2: return "The number you selected is even";
+        default: return "The number you selected is zero";
+      }
+    }();
+	    </code></pre>
+	  </p>
+	</section>
+
+
+	<section>
+	  <h3>Performance</h3>
+	  <p><img data-src="iife.png"></p>
+	</section>
+
+	<section>
+	  <h3>Going further</h3>
+	  <a href="http://quick-bench.com">http://quick-bench.com</a>
+	  <hr/>
+	  CppCon 2016: Jason Turner Practical Performance Practices<br>
+	  <iframe src="https://www.youtube.com/embed/uzF4u9KgUWI"></iframe>
+	  </section>
+	
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@3.5.0/lib/js/head.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@3.5.0/js/reveal.min.js"></script>
+    <script>
+      Reveal.initialize({
+      controls: true,
+      progress: true,
+      history: true,
+      center: true,
+      transition: 'slide', // none/fade/slide/convex/concave/zoom
+      // More info https://github.com/hakimel/reveal.js#dependencies
+      dependencies: [
+      {src: 'https://cdn.jsdelivr.net/npm/reveal.js@3.5.0/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad();}}
+      ]
+      });
+    </script>
+  </body>
+</html>
